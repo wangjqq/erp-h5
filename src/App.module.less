@@ -1,11 +1,22 @@
 .app {
 	:global {
 		.adm-list-item-content-prefix {
-			width: 3em;
+			width: 4em;
 		}
 		.adm-tabs-content {
 			height: calc(100% - 91px);
 			overflow: auto;
+		}
+		.rc-table-cell-ellipsis {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.rc-table {
+			td {
+				border-bottom: 1px solid #e8e8e8;
+				padding: 20px 0;
+			}
 		}
 	}
 	height: 100%;

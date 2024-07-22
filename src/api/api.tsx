@@ -1,3 +1,5 @@
+/* eslint-disable comma-spacing */
+import { Toast } from "antd-mobile";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // 创建 Axios 实例
@@ -37,29 +39,37 @@ apiClient.interceptors.response.use(
 	},
 	(error) => {
 		// 处理响应错误
+		Toast.show({
+			icon: "fail",
+			content: (
+				<>
+					<div>系统异常，请联系管理员</div>
+					<div>{error?.response?.data?.message}</div>
+				</>
+			),
+		});
 		return Promise.reject(error);
 	}
 );
 
 // 封装 GET 请求
-export const get = <T>(url: string, params?: Record<string, any>): Promise<T> => {
+export const get = <T,>(url: string, params?: Record<string, any>): Promise<T> => {
 	return apiClient.get<T>(url, { params }).then((response) => {
-		console.log(response);
 		return response.data;
 	});
 };
 
 // 封装 POST 请求
-export const post = <T>(url: string, data?: Record<string, any>): Promise<T> => {
-	return apiClient.post<T>(url, data).then((response) => response.data);
+export const post = <T,>(url: string, data?: Record<string, any>): Promise<T> => {
+	return apiClient.post<T>(url, data).then((response) => response?.data);
 };
 
 // 封装 PUT 请求
-export const put = <T>(url: string, data?: Record<string, any>): Promise<T> => {
+export const put = <T,>(url: string, data?: Record<string, any>): Promise<T> => {
 	return apiClient.put<T>(url, data).then((response) => response.data);
 };
 
 // 封装 DELETE 请求
-export const del = <T>(url: string): Promise<T> => {
+export const del = <T,>(url: string): Promise<T> => {
 	return apiClient.delete<T>(url).then((response) => response.data);
 };

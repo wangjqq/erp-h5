@@ -27,7 +27,6 @@ const HardwareCategory = () => {
 
 	const getList = () => {
 		getAllCategories().then((res) => {
-			console.log(res);
 			setDataList(res);
 		});
 	};
@@ -143,7 +142,7 @@ const HardwareCategory = () => {
 						<Form.Item name="id" noStyle>
 							<Input style={{ display: "none" }} />
 						</Form.Item>
-						<Form.Item name="name" label="名称">
+						<Form.Item name="name" label="名称" rules={[{ required: true, message: "请输入名称" }]}>
 							<Input placeholder="请输入名称" />
 						</Form.Item>
 					</Form>
@@ -175,16 +174,22 @@ const HardwareCategory = () => {
 									onClick={async (e) => {
 										e.stopPropagation();
 										e.preventDefault();
-										const data = await form.validateFields();
-										const fn = data.id ? updateCategory : createCategory;
-										await fn(data);
-										Toast.show({
-											icon: "success",
-											content: "保存成功",
-										});
-										await getList();
-										form.resetFields();
-										setVisible(false);
+										form
+											.validateFields()
+											.then(async (data) => {
+												const fn = data.id ? updateCategory : createCategory;
+												await fn(data);
+												Toast.show({
+													icon: "success",
+													content: "保存成功",
+												});
+												await getList();
+												form.resetFields();
+												setVisible(false);
+											})
+											.catch((err) => {
+												console.log(err);
+											});
 									}}
 								>
 									确定
